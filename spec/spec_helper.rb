@@ -1,4 +1,5 @@
 require File.join(File.dirname(__FILE__), '..', 'twitter.rb')
+require File.join(File.dirname(__FILE__), '..', 'lib', 'twitter.rb')
 
 require 'rubygems'
 require 'sinatra'
@@ -13,3 +14,4 @@ set :run, false
 set :raise_errors, true
 set :logging, false
 
+ENV["spec_config_dir"] = File.join(File.dirname(__FILE__), 'config')
