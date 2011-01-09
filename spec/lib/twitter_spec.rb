@@ -26,4 +26,14 @@ describe Twitter do
     twitter = Twitter.new :config => ENV["spec_config_dir"]
     twitter.authorise_url.should == 'https://auth.twitter.com'
   end
+
+  it "should store authorisation details once the app has been authorised" do
+    pending "Not saving the file - need to get it working still"
+    File.exists?(File.join(ENV["spec_config_dir"], "access_token.yml")).should be_false
+    twitter = Twitter.new :config => ENV["spec_config_dir"]
+
+    mock_at = mock(OAuth::AccessToken, :token => '123', :secret => '456')
+    @mock_rt.stub(:get_access_token).and_return(mock_at)
+    YAML.load_file(File.join(ENV["spec_config_dir"], "access_token.yml")).should == { :token => '123', :secret => '456' }
+  end
 end

@@ -26,4 +26,17 @@ describe "Twitter App" do
     last_response.body.should =~ /Authorise Application/
     last_response.body.should =~ /https:\/\/path\/to\/auth/
   end
+
+  it "should provide a link so that the user can indicate when he has authorised the application" do
+    @mock_twitter.should_receive(:authorised?).and_return(false)
+    @mock_twitter.should_receive(:authorise_url).and_return("https://path/to/auth")
+    get '/'
+    last_response.body.should =~ /Confirm Authorisation/
+  end
+
+  it "should allow the user to confirm that the app is authorised" do
+    @mock_twitter.should_receive(:authorised!)
+    post '/authorise'
+    last_response.should be_ok
+  end
 end

@@ -12,3 +12,9 @@ get '/' do
     erb :authorise
   end
 end
+
+post '/authorise' do
+  twitter = Twitter.new :config => File.join(File.dirname(__FILE__), "config" )
+  twitter.authorised!
+  "ok"
+end
