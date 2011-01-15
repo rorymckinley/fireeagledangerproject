@@ -1,7 +1,4 @@
 require File.join(File.dirname(__FILE__), "../spec_helper")
-require 'yaml'
-require 'oauth'
-require 'oauth/consumer'
 
 describe Twitter do
   before(:each) do

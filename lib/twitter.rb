@@ -1,5 +1,6 @@
 require 'oauth'
 require 'oauth/consumer'
+require 'yaml'
 
 class Twitter
   def initialize(options={})
