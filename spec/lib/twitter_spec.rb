@@ -14,6 +14,7 @@ describe Twitter do
     OAuth::Consumer.stub!(:new).with(config[:token], config[:secret], { :site => 'https://api.twitter.com' }).and_return(@mock_consumer)
 
   end
+
   it "should indicate if there is a valid access token" do
     twitter = Twitter.new :config => ENV["spec_config_dir"]
     twitter.should_not be_authorised
@@ -28,12 +29,14 @@ describe Twitter do
   end
 
   it "should store authorisation details once the app has been authorised" do
-    pending "Not saving the file - need to get it working still"
     File.exists?(File.join(ENV["spec_config_dir"], "access_token.yml")).should be_false
     twitter = Twitter.new :config => ENV["spec_config_dir"]
 
     mock_at = mock(OAuth::AccessToken, :token => '123', :secret => '456')
     @mock_rt.stub(:get_access_token).and_return(mock_at)
+
+    twitter.authorised!
+
     YAML.load_file(File.join(ENV["spec_config_dir"], "access_token.yml")).should == { :token => '123', :secret => '456' }
   end
 end

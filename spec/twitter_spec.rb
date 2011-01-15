@@ -1,10 +1,11 @@
 require "spec_helper"
+require "uri"
 
 describe "Twitter App" do
   include Rack::Test::Methods
 
   before(:each) do
-    @mock_twitter = mock(Twitter, :authorised? => true)
+    @mock_twitter = mock(Twitter, :authorised! => true, :authorised? => true)
     Twitter.should_receive(:new).and_return(@mock_twitter)
   end
 
@@ -37,6 +38,11 @@ describe "Twitter App" do
   it "should allow the user to confirm that the app is authorised" do
     @mock_twitter.should_receive(:authorised!)
     post '/authorise'
-    last_response.should be_ok
+  end
+
+  it "should redirect the user to the formto post a tweet once he has confirmed authorisation" do
+    post '/authorise'
+    last_response.status.should == 302
+    URI.parse(last_response.headers['Location']).path.should == "/"
   end
 end
