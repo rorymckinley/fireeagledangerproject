@@ -1,0 +1,11 @@
+diff-lcs -v1.1.2
+oauth -v0.4.4
+rack -v1.2.1
+rack-test -v0.5.6
+rspec -v2.3.0
+rspec-core -v2.3.1
+rspec-expectations -v2.3.0
+rspec-mocks -v2.3.0
+shotgun -v0.8
+sinatra -v1.1.2
+tilt -v1.2.1
