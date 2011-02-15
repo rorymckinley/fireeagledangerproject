@@ -1,16 +1,19 @@
 # Goal
 
+To inspire learners through the rewarding practice of software development.
+
 # Guiding Concepts
 
 * Project-based learning
-* TDD, Pairing, Refactoring (XP)
-* SCRUM (Working in software teams)
-* Version Control
-* Don't Repeat Yourself (DRY)
-* Free Open Source Software (FOSS)
-* Object Oriented Design
+* Modern concepts in software:
+  * TDD, Pairing, Refactoring (Extreme Programming)
+  * SCRUM (Working in software teams)
+  * Version Control
+  * Don't Repeat Yourself (DRY)
+  * Free Open Source Software (FOSS)
+  * Object Oriented Design
 
-# Tools
+# Educational Tools
 
 * Linux
 * Ruby, Ruby on Rails
