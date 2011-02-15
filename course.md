@@ -17,7 +17,6 @@
 * HTML/CSS/Javascript
 * Git/GitHub/Heroku
 * Android App Builder
-* WXRuby
 * LightBot
 * Shoes.rb / Hackety Hack
 * http://pine.fm/LearnToProgram
