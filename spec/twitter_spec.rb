@@ -11,6 +11,7 @@ describe "Twitter App" do
 
   def app
     @app ||= Sinatra::Application
+    @app.send(:set, :sessions, false)
   end
 
   it "should provide a form for sending a tweet" do
@@ -28,20 +29,16 @@ describe "Twitter App" do
     last_response.body.should =~ /https:\/\/path\/to\/auth/
   end
 
-  it "should provide a link so that the user can indicate when he has authorised the application" do
-    @mock_twitter.should_receive(:authorised?).and_return(false)
-    @mock_twitter.should_receive(:authorise_url).and_return("https://path/to/auth")
-    get '/'
-    last_response.body.should =~ /Confirm Authorisation/
+  it "should provide a callback to handle the oauth response from the auth url" do
+    ENV['request_token'] = 'req_token'
+    ENV['request_secret'] = 'req_secret'
+    @mock_twitter.should_receive(:authorise).with('req_token', 'req_secret', '12345')
+    post '/oauth', :oauth_verifier => '12345'
   end
 
-  it "should allow the user to confirm that the app is authorised" do
-    @mock_twitter.should_receive(:authorised!)
-    post '/authorise'
-  end
-
-  it "should redirect the user to the formto post a tweet once he has confirmed authorisation" do
-    post '/authorise'
+  it "should return the user to the page to post a tweet after receiving authorisation" do
+    @mock_twitter.stub!(:authorise)
+    post '/oauth', :oauth_verifier => '12345'
     last_response.status.should == 302
     URI.parse(last_response.headers['Location']).path.should == "/"
   end

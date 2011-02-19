@@ -3,6 +3,8 @@ require 'sinatra'
 require 'erb'
 require File.dirname(__FILE__) + '/lib/twitter'
 
+enable :sessions
+
 get '/' do
   twitter = Twitter.new :config => File.join(File.dirname(__FILE__), "config" )
   if twitter.authorised?
@@ -13,8 +15,9 @@ get '/' do
   end
 end
 
-post '/authorise' do
+post '/oauth' do
   twitter = Twitter.new :config => File.join(File.dirname(__FILE__), "config" )
-  twitter.authorised!
+  twitter.authorise ENV["request_token"], ENV["request_secret"], params[:oauth_verifier]
   redirect '/'
 end
+
