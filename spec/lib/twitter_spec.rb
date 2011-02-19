@@ -6,25 +6,29 @@ describe Twitter do
   end
 
   before(:each) do
-    File.delete(File.join(ENV["spec_config_dir"], "access_token.yml")) if File.exists?(File.join(ENV["spec_config_dir"], "access_token.yml"))
-    @access_token = { :token => '123', :secret => '456' }
-
+    Twitter.all.destroy
     config = YAML.load_file(File.join(File.dirname(__FILE__), "../../", "config", "consumer.yml"))
     @mock_rt = mock(OAuth::RequestToken, :authorize_url => 'https://auth.twitter.com')
     @mock_consumer = mock(OAuth::Consumer, :get_request_token => @mock_rt)
     OAuth::Consumer.stub!(:new).with('cons_token', 'cons_secret', { :site => 'https://api.twitter.com' }).and_return(@mock_consumer)
-
   end
 
   it "should store a request token and request secret upon initialisation if they do not already exist" do
-    Twitter.all.destroy
     @mock_rt.should_receive(:token).and_return('tok')
     @mock_rt.should_receive(:secret).and_return('sec')
 
-    Twitter.new 'cons_token', 'cons_secret'
+    Twitter.setup! 'cons_token', 'cons_secret'
 
     Twitter.first.request_token.should == 'tok'
     Twitter.first.request_secret.should == 'sec'
+  end
+
+  it "should return a record representing the existing request settings if these exist upon initialisation" do
+    Twitter.create :request_token => 'abc', :request_secret => 'def'
+    t = Twitter.setup! 'cons_token', 'cons_secret'
+    t.request_token.should == 'abc'
+    t.request_secret.should == 'def'
+    Twitter.count.should == 1
   end
 
   it "should indicate if there is a valid access token" do

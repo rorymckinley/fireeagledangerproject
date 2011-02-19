@@ -11,11 +11,20 @@ class Twitter
   property :oauth_verification, String
 
   storage_names[:default] = 'twitter'
-  def initialize(consumer_token, consumer_secret)
-    request = OAuth::Consumer.new(consumer_token, consumer_secret, { :site => 'https://api.twitter.com' }).get_request_token
-    self.request_token = request.token
-    self.request_secret = request.secret
-    self.save
+
+  # def initialize(consumer_token, consumer_secret)
+  #   request = OAuth::Consumer.new(consumer_token, consumer_secret, { :site => 'https://api.twitter.com' }).get_request_token
+  #   self.request_token = request.token
+  #   self.request_secret = request.secret
+  #   self.save
+  # end
+
+  def self.setup!(consumer_token, consumer_secret)
+    unless t = Twitter.first
+      request = OAuth::Consumer.new(consumer_token, consumer_secret, { :site => 'https://api.twitter.com' }).get_request_token
+      t = Twitter.create :request_token => request.token, :request_secret => request.secret
+    end
+    t
   end
 
   def authorised?
