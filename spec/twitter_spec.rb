@@ -30,9 +30,7 @@ describe "Twitter App" do
   end
 
   it "should provide a callback to handle the oauth response from the auth url" do
-    ENV['request_token'] = 'req_token'
-    ENV['request_secret'] = 'req_secret'
-    @mock_twitter.should_receive(:authorise).with('req_token', 'req_secret', '12345')
+    @mock_twitter.should_receive(:authorise).with('12345')
     post '/oauth', :oauth_verifier => '12345'
   end
 
