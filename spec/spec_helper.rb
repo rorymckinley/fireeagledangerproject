@@ -6,6 +6,7 @@ require 'sinatra'
 require 'rack/test'
 require 'rspec'
 require 'rspec/autorun'
+require 'dm-core'
 # require 'rspec/interop/test'
 
 # set test environment
@@ -15,3 +16,4 @@ set :raise_errors, true
 set :logging, false
 
 ENV["spec_config_dir"] = File.join(File.dirname(__FILE__), 'config')
+ENV["DATABASE_URL"] = "sqlite3://#{File.join(File.dirname(__FILE__), '..', 'db', 'test.db')}"
