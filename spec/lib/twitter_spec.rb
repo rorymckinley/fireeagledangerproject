@@ -31,6 +31,14 @@ describe Twitter do
     Twitter.count.should == 1
   end
 
+  it "should be able to generate an authorisation url" do
+    Twitter.create :request_token => 'abc', :request_secret => 'def'
+    OAuth::RequestToken.should_receive(:new).with(@mock_consumer, 'abc', 'def').and_return(@mock_rt)
+    @mock_rt.should_receive(:authorize_url).and_return('https://blah')
+    t = Twitter.setup! 'cons_token', 'cons_secret'
+    t.authorise_url.should == 'https://blah'
+  end
+
   it "should indicate if there is a valid access token" do
     pending
     twitter = Twitter.new :config => ENV["spec_config_dir"]
