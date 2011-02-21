@@ -4,31 +4,51 @@ task :spec do
  
   RSpec::Core::RakeTask.new
 end
-desc "Run migrations"
 namespace :migrations do
-  desc "Run migrations against dev database"
-  task :development do
-    gem "dm-core"
-    require "dm-core"
-    DataMapper.setup(:default, "sqlite3://#{File.join(File.dirname(__FILE__), 'db', "development.db")}")
-    Rake::Task['migrations:migrate'].invoke
+  namespace :development do
+    task :connection do
+      gem "dm-core"
+      require "dm-core"
+      DataMapper.setup(:default, "sqlite3://#{File.join(File.dirname(__FILE__), 'db', "development.db")}")
+    end
+    desc "Migrate up the development database"
+    task :up => 'development:connection' do
+      Rake::Task['migrations:migrate'].invoke
+    end
+    desc "Migrate down the development database"
+    task :down => 'development:connection' do
+      Rake::Task['migrations:migrate_down'].invoke
+    end
   end
-  desc "Run migrations against test database"
-  task :test do
-    gem "dm-core"
-    require "dm-core"
-    DataMapper.setup(:default, "sqlite3://#{File.join(File.dirname(__FILE__), 'db', "test.db")}")
-    Rake::Task['migrations:migrate'].invoke
+  namespace :test do
+    task :connection do
+      gem "dm-core"
+      require "dm-core"
+      DataMapper.setup(:default, "sqlite3://#{File.join(File.dirname(__FILE__), 'db', "test.db")}")
+    end
+    desc "Migrate up the test database"
+    task :up => 'test:connection' do
+      Rake::Task['migrations:migrate'].invoke
+    end
+    desc "Migrate down the test database"
+    task :down => 'test:connection' do
+      Rake::Task['migrations:migrate_down'].invoke
+    end
   end
   task :production do
   end
   task :migrate do
-    puts "Running migrate"
     gem "dm-migrations"
     require "dm-migrations"
 
     Dir[File.join(File.dirname(__FILE__), 'db', 'migrations', '*')].each { |f| puts f; require f}
     migrate_up!
   end
-end
+  task :migrate_down do
+    gem "dm-migrations"
+    require "dm-migrations"
 
+    Dir[File.join(File.dirname(__FILE__), 'db', 'migrations', '*')].each { |f| puts f; require f}
+    migrate_down!
+  end
+end
