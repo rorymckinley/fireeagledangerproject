@@ -8,7 +8,8 @@ class Twitter
 
   property :request_token, String
   property :request_secret, String
-  property :oauth_verification, String
+  property :access_token, String
+  property :access_secret, String
 
   storage_names[:default] = 'twitter'
 
@@ -19,6 +20,14 @@ class Twitter
     end
     t.set_consumer_details  consumer_token, consumer_secret
     t
+  end
+
+  def authorise!(auth_verification)
+    rt = OAuth::RequestToken.new(OAuth::Consumer.new(@consumer_token, @consumer_secret, { :site => 'https://api.twitter.com' }), self.request_token, self.request_secret)
+    at = rt.get_access_token(:oauth_verifier => auth_verification)
+    self.access_token = at.token
+    self.access_secret = at.secret
+    save
   end
 
   def authorised?
