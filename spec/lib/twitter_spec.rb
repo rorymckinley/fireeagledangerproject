@@ -1,5 +1,7 @@
 require File.join(File.dirname(__FILE__), "../spec_helper")
 
+ACCESS_TOKEN_FILE = File.join(ENV["spec_config_dir"], "access_token.yml")
+
 describe Twitter do
   before(:all) do
     DataMapper.setup(:default, ENV['DATABASE_URL'])
@@ -19,7 +21,6 @@ describe Twitter do
     @mock_rt.should_receive(:secret).and_return('sec')
 
     Twitter.setup! 'cons_token', 'cons_secret'
-
     Twitter.first.request_token.should == 'tok'
     Twitter.first.request_secret.should == 'sec'
   end
