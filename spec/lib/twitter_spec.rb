@@ -66,4 +66,12 @@ describe Twitter do
     t.authorise! 'verify'
     t.should be_authorised
   end
+
+  it "should post a message to twitter" do
+    Twitter.create :request_token => 'abc', :request_secret => 'def', :access_token => 'ghi', :access_secret => 'jkl'
+    OAuth::AccessToken.should_receive(:new).with(@mock_consumer, 'ghi', 'jkl').and_return(@mock_at)
+    @mock_at.should_receive(:post).with("/1/statuses/update.json", :status => "Test Tweet")
+
+    Twitter.setup!('cons_token', 'cons_secret').tweet("Test Tweet")
+  end
 end

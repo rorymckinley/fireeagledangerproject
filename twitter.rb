@@ -20,3 +20,9 @@ post '/oauth' do
   redirect '/'
 end
 
+post '/tweet' do
+  twitter = Twitter.new :config => File.join(File.dirname(__FILE__), "config" )
+  twitter.tweet params[:message]
+  redirect '/'
+end
+
