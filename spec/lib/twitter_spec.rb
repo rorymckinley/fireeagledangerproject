@@ -53,4 +53,17 @@ describe Twitter do
     t.access_token.should == 'a_token'
     t.access_secret.should == 'a_secret'
   end
+
+  it "should indicate if it has access token details" do
+    Twitter.create :request_token => 'abc', :request_secret => 'def'
+    OAuth::RequestToken.stub!(:new).with(@mock_consumer, 'abc', 'def').and_return(@mock_rt)
+    @mock_rt.stub!(:get_access_token).with(:oauth_verifier => 'verify').and_return(@mock_at)
+    @mock_at.stub!(:token).and_return('a_token')
+    @mock_at.stub!(:secret).and_return('a_secret')
+
+    t = Twitter.setup! 'cons_token', 'cons_secret'
+    t.should_not be_authorised
+    t.authorise! 'verify'
+    t.should be_authorised
+  end
 end

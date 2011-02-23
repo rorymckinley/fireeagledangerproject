@@ -31,7 +31,7 @@ class Twitter
   end
 
   def authorised?
-    File.exists? File.join(@config, "access_token.yml")
+    self.access_token && self.access_secret
   end
 
   def authorise_url
