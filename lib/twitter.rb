@@ -53,6 +53,7 @@ class Twitter
 
   def tweet(message)
     at = OAuth::AccessToken.new(OAuth::Consumer.new(@consumer_token, @consumer_secret, { :site => 'https://api.twitter.com' }), self.access_token, self.access_secret)
-    at.post "/1/statuses/update.json", :status => message
+    r = at.post "/1/statuses/update.json", :status => message
+    puts r.inspect
   end
 end
