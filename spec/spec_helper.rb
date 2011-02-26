@@ -17,4 +17,6 @@ set :logging, false
 
 ENV["CONSUMER_TOKEN"] = "1233"
 ENV["CONSUMER_SECRET"] = "1256"
+ENV["USERNAME"] = 'luser'
+ENV["PASSWORD"] = 'secret'
 ENV["DATABASE_URL"] = "sqlite3://#{File.join(File.dirname(__FILE__), '..', 'db', 'test.db')}"

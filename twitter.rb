@@ -4,6 +4,10 @@ require 'erb'
 require 'dm-core'
 require File.dirname(__FILE__) + '/lib/twitter'
 
+use Rack::Auth::Basic, "" do |username, password|
+  [username, password] == [ENV['USERNAME'],ENV['PASSWORD']]
+end
+
 get '/' do
   twitter = Twitter.setup! ENV["CONSUMER_TOKEN"], ENV["CONSUMER_SECRET"]
   if twitter.authorised?
