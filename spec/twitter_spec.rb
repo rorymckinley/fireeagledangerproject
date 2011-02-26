@@ -19,7 +19,7 @@ describe "Twitter App" do
   context "Authorised" do
     before(:each) do
       @mock_twitter = mock(Twitter, :authorised! => true, :authorised? => true)
-      Twitter.should_receive(:setup!).with(ENV["CONSUMER_TOKEN"], ENV["CONSUMER_SECRET"]).and_return(@mock_twitter)
+      Twitter.should_receive(:setup!).with(ENV["CONSUMER_TOKEN"], ENV["CONSUMER_SECRET"], "http://example.org/oauth").and_return(@mock_twitter)
       authorize ENV['USERNAME'], ENV['PASSWORD']
     end
 

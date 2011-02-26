@@ -11,7 +11,7 @@ end
 DataMapper.setup(:default, ENV['DATABASE_URL'])
 
 get '/' do
-  twitter = Twitter.setup! ENV["CONSUMER_TOKEN"], ENV["CONSUMER_SECRET"]
+  twitter = Twitter.setup! ENV["CONSUMER_TOKEN"], ENV["CONSUMER_SECRET"], "#{request.scheme}://#{request.host}/oauth"
   if twitter.authorised?
     erb :new_tweet
   else
@@ -21,13 +21,13 @@ get '/' do
 end
 
 post '/oauth' do
-  twitter = Twitter.setup! ENV["CONSUMER_TOKEN"], ENV["CONSUMER_SECRET"]
+  twitter = Twitter.setup! ENV["CONSUMER_TOKEN"], ENV["CONSUMER_SECRET"], "#{request.scheme}://#{request.host}/oauth"
   twitter.authorise params[:oauth_verifier]
   redirect '/'
 end
 
 post '/tweet' do
-  twitter = Twitter.setup! ENV["CONSUMER_TOKEN"], ENV["CONSUMER_SECRET"]
+  twitter = Twitter.setup! ENV["CONSUMER_TOKEN"], ENV["CONSUMER_SECRET"], "#{request.scheme}://#{request.host}/oauth"
   twitter.tweet params[:message]
   redirect '/'
 end
