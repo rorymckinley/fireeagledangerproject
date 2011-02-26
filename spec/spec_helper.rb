@@ -15,5 +15,6 @@ set :run, false
 set :raise_errors, true
 set :logging, false
 
-ENV["spec_config_dir"] = File.join(File.dirname(__FILE__), 'config')
+ENV["CONSUMER_TOKEN"] = "1233"
+ENV["CONSUMER_SECRET"] = "1256"
 ENV["DATABASE_URL"] = "sqlite3://#{File.join(File.dirname(__FILE__), '..', 'db', 'test.db')}"

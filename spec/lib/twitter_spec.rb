@@ -1,7 +1,5 @@
 require File.join(File.dirname(__FILE__), "../spec_helper")
 
-ACCESS_TOKEN_FILE = File.join(ENV["spec_config_dir"], "access_token.yml")
-
 describe Twitter do
   before(:all) do
     DataMapper.setup(:default, ENV['DATABASE_URL'])

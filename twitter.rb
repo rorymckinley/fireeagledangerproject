@@ -5,7 +5,7 @@ require 'dm-core'
 require File.dirname(__FILE__) + '/lib/twitter'
 
 get '/' do
-  twitter = Twitter.new :config => File.join(File.dirname(__FILE__), "config" )
+  twitter = Twitter.setup! ENV["CONSUMER_TOKEN"], ENV["CONSUMER_SECRET"]
   if twitter.authorised?
     erb :new_tweet
   else
@@ -15,13 +15,13 @@ get '/' do
 end
 
 post '/oauth' do
-  twitter = Twitter.new :config => File.join(File.dirname(__FILE__), "config" )
+  twitter = Twitter.setup! ENV["CONSUMER_TOKEN"], ENV["CONSUMER_SECRET"]
   twitter.authorise params[:oauth_verifier]
   redirect '/'
 end
 
 post '/tweet' do
-  twitter = Twitter.new :config => File.join(File.dirname(__FILE__), "config" )
+  twitter = Twitter.setup! ENV["CONSUMER_TOKEN"], ENV["CONSUMER_SECRET"]
   twitter.tweet params[:message]
   redirect '/'
 end
