@@ -36,6 +36,19 @@ namespace :migrations do
     end
   end
   task :production do
+    task :connection do
+      gem "dm-core"
+      require "dm-core"
+      DataMapper.setup(:default,ENV["DATABASE_URL"])
+    end
+    desc "Migrate up the production database"
+    task :up => 'production:connection' do
+      Rake::Task['migrations:migrate'].invoke
+    end
+    desc "Migrate down the production database"
+    task :down => 'production:connection' do
+      Rake::Task['migrations:migrate_down'].invoke
+    end
   end
   task :migrate do
     gem "dm-migrations"
