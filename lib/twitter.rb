@@ -13,9 +13,9 @@ class Twitter
 
   storage_names[:default] = 'twitter'
 
-  def self.setup!(consumer_token, consumer_secret)
+  def self.setup!(consumer_token, consumer_secret, callback_url)
     unless t = Twitter.first
-      request = OAuth::Consumer.new(consumer_token, consumer_secret, { :site => 'https://api.twitter.com' }).get_request_token
+      request = OAuth::Consumer.new(consumer_token, consumer_secret, { :site => 'https://api.twitter.com' }).get_request_token(:oauth_callback => callback_url)
       t = Twitter.create :request_token => request.token, :request_secret => request.secret
     end
     t.set_consumer_details  consumer_token, consumer_secret
