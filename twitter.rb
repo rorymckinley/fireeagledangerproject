@@ -8,6 +8,8 @@ use Rack::Auth::Basic, "" do |username, password|
   [username, password] == [ENV['USERNAME'],ENV['PASSWORD']]
 end
 
+DataMapper.setup(:default, ENV['DATABASE_URL'])
+
 get '/' do
   twitter = Twitter.setup! ENV["CONSUMER_TOKEN"], ENV["CONSUMER_SECRET"]
   if twitter.authorised?
