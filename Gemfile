@@ -1,4 +1,4 @@
-require "rubygems"
+source :rubygems
 gem 'diff-lcs', '1.1.2'
 gem 'oauth', '0.4.4'
 gem 'rack', '1.2.1'
