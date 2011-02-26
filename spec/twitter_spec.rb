@@ -52,12 +52,12 @@ describe "Twitter App" do
 
     it "should provide a way to post a tweet" do
       @mock_twitter.should_receive(:tweet).with('Hello, from Twitter')
-      post '/tweet', :message => 'Hello, from Twitter'
+      post '/tweet', :tweet => { "content" => 'Hello, from Twitter' }
     end
 
     it "should redirect to the start page after tweeting" do
       @mock_twitter.stub!(:tweet)
-      post '/tweet', :message => 'Hello, from Twitter'
+      post '/tweet', :tweet => { "content" => 'Hello, from Twitter' }
       last_response.status.should == 302
       URI.parse(last_response.headers['Location']).path.should == "/"
     end

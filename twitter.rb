@@ -28,7 +28,7 @@ end
 
 post '/tweet' do
   twitter = Twitter.setup! ENV["CONSUMER_TOKEN"], ENV["CONSUMER_SECRET"], "#{request.scheme}://#{request.host}/oauth"
-  twitter.tweet params[:message]
+  twitter.tweet params[:tweet]["content"]
   redirect '/'
 end
 
