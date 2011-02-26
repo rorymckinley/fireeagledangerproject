@@ -40,12 +40,12 @@ describe "Twitter App" do
 
     it "should provide a callback to handle the oauth response from the auth url" do
       @mock_twitter.should_receive(:authorise).with('12345')
-      post '/oauth', :oauth_verifier => '12345'
+      get '/oauth', :oauth_verifier => '12345'
     end
 
     it "should return the user to the page to post a tweet after receiving authorisation" do
       @mock_twitter.stub!(:authorise)
-      post '/oauth', :oauth_verifier => '12345'
+      get '/oauth', :oauth_verifier => '12345'
       last_response.status.should == 302
       URI.parse(last_response.headers['Location']).path.should == "/"
     end

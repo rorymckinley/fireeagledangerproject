@@ -20,7 +20,7 @@ get '/' do
   end
 end
 
-post '/oauth' do
+get '/oauth' do
   twitter = Twitter.setup! ENV["CONSUMER_TOKEN"], ENV["CONSUMER_SECRET"], "#{request.scheme}://#{request.host}/oauth"
   twitter.authorise params[:oauth_verifier]
   redirect '/'
