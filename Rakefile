@@ -35,7 +35,7 @@ namespace :migrations do
       Rake::Task['migrations:migrate_down'].invoke
     end
   end
-  task :production do
+  namespace :production do
     task :connection do
       gem "dm-core"
       require "dm-core"
