@@ -38,15 +38,6 @@ class Twitter
     OAuth::RequestToken.new(OAuth::Consumer.new(@consumer_token, @consumer_secret, { :site => 'https://api.twitter.com' }), self.request_token, self.request_secret).authorize_url
   end
 
-  def authorised!
-    config = YAML.load_file(File.join(File.dirname(__FILE__), '..', 'config', 'consumer.yml'))
-    consumer = OAuth::Consumer.new(config[:token], config[:secret], { :site => 'https://api.twitter.com' })
-    rt= consumer.get_request_token
-    at = rt.get_access_token(:oauth_verifier => '8341349')
-    # access_token = consumer.get_request_token.get_access_token
-    # File.open(File.join(@config, "access_token.yml"), 'w') { |f| f.write(YAML.dump({ :token => access_token.token, :secret => access_token.secret })) }
-  end
-
   def set_consumer_details(consumer_token, consumer_secret)
     @consumer_token, @consumer_secret = consumer_token, consumer_secret
   end
